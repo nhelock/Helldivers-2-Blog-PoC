@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+        input, textarea { width: 100%; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: blue; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Create New Post</h1>
+    <form method="POST">
+        <input type="text" name="title" placeholder="Post Title" required>
+        <textarea name="content" placeholder="Post Content" rows="10" required></textarea>
+        <button type="submit">Publish Post</button>
+    </form>
+    <br>
+    <a href="/">← Back to Home</a>
+</body>
+</html>
