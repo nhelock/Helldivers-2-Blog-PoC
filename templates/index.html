@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Helldivers 2 Devblog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Helldivers 2 Blog — Proof of Concept by WaywardOath</h1>
+        
+        <!-- Navigation Bar -->
+        <nav class="main-nav">
+            <ul>
+                <li class="{% if active_page == 'updates' %}active{% endif %}">
+                    <a href="/category/updates">Updates</a>
+                </li>
+                <li class="{% if active_page == 'announcements' %}active{% endif %}">
+                    <a href="/category/announcements">Announcements</a>
+                </li>
+                <li class="{% if active_page == 'balancing' %}active{% endif %}">
+                    <a href="/category/balancing">Balancing</a>
+                </li>
+                <li class="{% if active_page == 'story' %}active{% endif %}">
+                    <a href="/category/story">Story</a>
+                </li>
+                <li class="{% if active_page == 'surveys' %}active{% endif %}">
+                    <a href="/category/surveys">Surveys</a>
+                </li>
+                <li class="{% if active_page == 'issues' %}active{% endif %}">
+                    <a href="/category/issues">Issues</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Content area that child templates will fill -->
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

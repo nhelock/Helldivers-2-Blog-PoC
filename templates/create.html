@@ -1,21 +1,210 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Post</title>
-    <style>
-        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
-        input, textarea { width: 100%; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        button { background: blue; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; }
-    </style>
+    <title>Create Post - Helldivers 2 Devblog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Include EasyMDE Markdown Editor CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 </head>
 <body>
-    <h1>Create New Post</h1>
-    <form method="POST">
-        <input type="text" name="title" placeholder="Post Title" required>
-        <textarea name="content" placeholder="Post Content" rows="10" required></textarea>
-        <button type="submit">Publish Post</button>
-    </form>
-    <br>
-    <a href="/">← Back to Home</a>
+    <div class="container">
+        <h1>Create New Post</h1>
+        
+        <form method="POST" id="postForm" class="create-form">
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Post Title" required class="form-input title-input">
+            </div>
+            
+            <div class="form-group">
+                <input type="text" name="subtitle" placeholder="Subtitle (e.g., Changes for update on 4/26/2026)" class="form-input subtitle-input">
+            </div>
+            
+            <div class="form-group">
+                <label>Category:</label>
+                <div class="category-buttons">
+                    <button type="button" class="category-select-btn" data-category="updates">Updates</button>
+                    <button type="button" class="category-select-btn" data-category="announcements">Announcements</button>
+                    <button type="button" class="category-select-btn" data-category="balancing">Balancing</button>
+                    <button type="button" class="category-select-btn" data-category="story">Story</button>
+                    <button type="button" class="category-select-btn" data-category="surveys">Surveys</button>
+                    <button type="button" class="category-select-btn" data-category="issues">Issues</button>
+                </div>
+                <input type="hidden" name="category" id="selectedCategory" required>
+            </div>
+            
+            <div class="form-group">
+                <textarea name="content" id="markdown-editor" placeholder="Write your post content here using Markdown..."></textarea>
+            </div>
+            
+            <button type="submit" class="publish-btn">Publish Post</button>
+        </form>
+        <br>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <style>
+        .create-form {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .title-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.3rem;
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 5px;
+            font-family: 'FS Sinclair', Arial, sans-serif;
+        }
+        
+        .subtitle-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid #555;
+            color: #aaa;
+            border-radius: 5px;
+            font-family: 'FS Sinclair', Arial, sans-serif;
+        }
+        
+        .title-input:focus, .subtitle-input:focus {
+            outline: none;
+            border-color: #4a9eff;
+        }
+        
+        .category-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .category-select-btn {
+            background: rgba(0, 0, 0, 0.6);
+            color: rgb(153,153,153);
+            border: none;
+            border-left: 5px solid #444;
+            border-right: 5px solid #444;
+            border-bottom: 5px solid #444;
+            border-top: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'FS Sinclair', Arial, sans-serif;
+        }
+        
+        .category-select-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: #666;
+        }
+        
+        .category-select-btn.selected {
+            color: #fff;
+            border-bottom-color: #4a9eff;
+            background: rgba(74, 158, 255, 0.2);
+        }
+        
+        .publish-btn {
+            background: #4a9eff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-family: 'FS Sinclair', Arial, sans-serif;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .publish-btn:hover {
+            background: #2a7edf;
+            transform: translateY(-2px);
+        }
+        
+        /* EasyMDE editor customization */
+        .EasyMDEContainer .CodeMirror {
+            background: rgba(30, 30, 30, 0.95);
+            color: #ddd;
+            border-color: #555;
+        }
+        
+        .EasyMDEContainer .editor-toolbar {
+            background: rgba(30, 30, 30, 0.95);
+            border-color: #555;
+        }
+        
+        .EasyMDEContainer .editor-toolbar button {
+            color: #ddd;
+        }
+        
+        .EasyMDEContainer .editor-toolbar button:hover {
+            background: rgba(74, 158, 255, 0.2);
+        }
+        
+        .EasyMDEContainer .editor-statusbar {
+            color: #999;
+        }
+    </style>
+
+    <script>
+        // Initialize the markdown editor
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('markdown-editor'),
+            placeholder: 'Write your post here using Markdown...\n\n# Headers\n**Bold text**\n*Italic text*\n- Bullet points\n1. Numbered lists\n[Links](https://...)\n> Quotes\n```code blocks```',
+            spellChecker: false,
+            toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'code', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'preview', 'guide'],
+            minHeight: '400px',
+            previewRender: function(plainText) {
+                return plainText;
+            }
+        });
+        
+        // Category selection logic
+        let selectedCategory = null;
+        
+        document.querySelectorAll('.category-select-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.category-select-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                
+                let category = this.getAttribute('data-category');
+                category = category.trim();
+                document.getElementById('selectedCategory').value = category;
+                selectedCategory = category;
+            });
+        });
+        
+        // Form validation before submit
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            if (!document.getElementById('selectedCategory').value) {
+                e.preventDefault();
+                alert('Please select a category for your post');
+                return false;
+            }
+            
+            const markdownContent = easyMDE.value();
+            if (!markdownContent.trim()) {
+                e.preventDefault();
+                alert('Please enter some content for your post');
+                return false;
+            }
+            
+            document.getElementById('markdown-editor').value = markdownContent;
+        });
+    </script>
 </body>
 </html>

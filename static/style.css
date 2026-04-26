@@ -1,0 +1,380 @@
+@font-face {
+    font-family: 'FS Sinclair';
+    src: url('/static/fonts/FS Sinclair Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background image*/
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    background-image: url('/static/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Darkens by 70% */
+    z-index: -1;
+}
+
+/* Container for content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-family: 'FS Sinclair', Arial, sans-serif;
+}
+
+/* Navigation bar */
+.main-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    margin: 30px 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.main-nav li {
+    position: relative;
+}
+
+.main-nav li a {
+    font-family: 'FS Sinclair', Arial, sans-serif;
+    text-decoration: none;
+    color: rgb(153,153,153);
+    display: block;
+    padding: 12px 24px;
+    font-size: 1.3rem;
+    border-left: 5px solid #444;
+    border-right: 5px solid #444;
+    border-bottom: 5px solid #444;
+    border-top: none;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.main-nav li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #666;
+    color: #fff;
+}
+
+/* Selected/Active category */
+.main-nav li.active a {
+    position: relative;
+    padding-bottom: 30px;
+    color: #fff;
+    border-bottom: 5px solid #444;
+}
+
+/* Diagonal stripes inside, not touching borders */
+.main-nav li.active a::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;        /* Reduced from 10px - less space between stripes and border */
+    left: 4px;
+    right: 4px;
+    height: 16px;       /* Increased from 12px - taller stripes */
+    background: repeating-linear-gradient(
+        -45deg,         /* Changed from 45deg to -45deg (inverted) */
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2) 6px,     /* Reduced from 10px - thinner stripes */
+        rgba(128, 128, 128, 0.2) 6px,     /* Reduced from 10px - thinner stripes */
+        rgba(128, 128, 128, 0.2) 12px     /* Reduced from 20px - thinner stripes */
+    );
+    border: none;
+    pointer-events: none;
+}
+
+/* Space between border and stripes - achieved with positioning */
+.main-nav li.active a::before {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: transparent;
+}
+
+/* Post styling - light text for dark background */
+.post {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #555;
+    border-radius: 5px;
+    margin: 20px 0;
+    padding: 20px;
+    color: #ddd;
+}
+
+.post h2 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.post a {
+    color: #4a9eff;
+    text-decoration: none;
+}
+
+.post a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background: #4a9eff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+button:hover {
+    background: #2a7edf;
+}
+
+
+/* POST PAGE STYLING */
+
+/* Post page styling */
+.post-full {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 40px;
+    margin: 20px 0;
+    color: #ddd;
+}
+
+.post-header {
+    border-bottom: 2px solid #444;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.post-title {
+    color: #fff;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-family: 'FS Sinclair', Arial, sans-serif;
+}
+
+.post-subtitle {
+    color: #aaa;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.read-more {
+    display: inline-block;
+    color: #4a9eff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.read-more:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.no-posts {
+    color: #aaa;
+    text-align: center;
+    padding: 40px;
+}
+
+.post-meta {
+    color: #999;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.post-category {
+    background: rgba(68, 68, 68, 0.5);
+    padding: 4px 12px;
+    border-radius: 4px;
+    border-left: 3px solid #4a9eff;
+}
+
+.post-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.post-content p {
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    color: #4a9eff;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: rgba(74, 158, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: rgba(74, 158, 255, 0.2);
+    color: #fff;
+}
+
+/* Form styles for create page */
+.form-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.3rem;
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+label {
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* MARKDOWN */
+
+/* Markdown content styling */
+.post-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.post-content h1 {
+    color: #fff;
+    font-size: 2rem;
+    margin: 30px 0 15px 0;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+}
+
+.post-content h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 25px 0 15px 0;
+}
+
+.post-content h3 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin: 20px 0 10px 0;
+}
+
+.post-content p {
+    margin-bottom: 20px;
+}
+
+.post-content ul, .post-content ol {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+
+.post-content li {
+    margin: 8px 0;
+}
+
+.post-content strong {
+    color: #fff;
+    font-weight: bold;
+}
+
+.post-content em {
+    font-style: italic;
+}
+
+.post-content code {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.post-content pre {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.post-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.post-content blockquote {
+    border-left: 4px solid #4a9eff;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background: rgba(74, 158, 255, 0.1);
+    font-style: italic;
+}
+
+.post-content a {
+    color: #4a9eff;
+    text-decoration: none;
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+}
+
+.post-content hr {
+    border: none;
+    height: 1px;
+    background: #444;
+    margin: 30px 0;
+}
