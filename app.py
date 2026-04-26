@@ -9,10 +9,29 @@ from markupsafe import Markup
 load_dotenv()
 app = Flask(__name__)
 
-# Initialize Firebase with your service account
-cred = credentials.Certificate("serviceAccountKey.json")
-initialize_app(cred)
+# Instead of:
+# cred = credentials.Certificate("serviceAccountKey.json")
+
+# Use this (works everywhere - local and cloud):
+from firebase_admin import firestore, initialize_app
+
+# Try to initialize with default credentials (Cloud Run)
+try:
+    initialize_app()
+    print("Firebase initialized with default credentials")
+except Exception as e:
+    print(f"Default credentials failed: {e}")
+    # Fallback to local file (for development)
+    try:
+        cred = credentials.Certificate("serviceAccountKey.json")
+        initialize_app(cred)
+        print("Firebase initialized with service account key")
+    except Exception as e2:
+        print(f"Local file also failed: {e2}")
+        raise
+
 db = firestore.client()
+print("Firestore client created")
 
 @app.route('/')
 def home():
