@@ -166,4 +166,4 @@ def category_issues():
     return render_template('home.html', posts=posts, active_page='issues')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=True)
